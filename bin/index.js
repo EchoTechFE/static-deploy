@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const cac = require('cac')
-const deploy = require('../src')
+const { deploy } = require('../src')
 
 const cli = cac('static-deploy')
 
