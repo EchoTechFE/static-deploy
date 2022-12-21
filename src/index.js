@@ -11,8 +11,9 @@ const deploy = async (src, dist, config) => {
   })
   for (const file of files) {
     const stream = fs.createReadStream(path.resolve(prefix, file))
-    await client.putStream(dist + file, stream, {})
-    console.log(`upload ${file}`)
+    const target = path.join(dist, file)
+    await client.putStream(target, stream, {})
+    console.log(`upload ${file} to ${target}`)
   }
 }
 
