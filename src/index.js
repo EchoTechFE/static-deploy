@@ -7,7 +7,8 @@ const deploy = async (src, dist, config) => {
   const client = new OSS(config)
   const prefix = path.resolve(src)
   const files = glob.sync('**/*', {
-    cwd: prefix
+    cwd: prefix,
+    nodir: true,
   })
 
   console.log(`bucket: ${config.bucket}`)
@@ -16,25 +17,27 @@ const deploy = async (src, dist, config) => {
   for (const file of files) {
     const stream = fs.createReadStream(path.resolve(prefix, file))
     const target = path.join(dist, file)
-    const options = {}
+    const headers = {}
     const MONTH_AGE = 60*60*24*30
 
     // 上传的文件缓存策略
     if (file.endsWith('.html')) {
-      options['Cache-Control'] = 'max-age=1'
+      headers['Cache-Control'] = 'max-age=1'
     } else if (file.endsWith('service-worker.js')) {
       // do nothing
     } else if (file.endsWith('.js')) {
-      options['Cache-Control'] = `max-age=${MONTH_AGE}`
+      headers['Cache-Control'] = `max-age=${MONTH_AGE}`
     } else if (file.endsWith('.css')) {
-      options['Cache-Control'] = `max-age=${MONTH_AGE}`
+      headers['Cache-Control'] = `max-age=${MONTH_AGE}`
     }
 
-    await client.putStream(target, stream, options)
+    await client.putStream(target, stream, {
+      headers
+    })
 
     let msg = `upload ${file}`
-    if (options['Cache-Control']) {
-      msg += `, cache-control: ${options['Cache-Control']}`
+    if (headers['Cache-Control']) {
+      msg += `, cache-control: ${headers['Cache-Control']}`
     }
 
     console.log(msg)
