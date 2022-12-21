@@ -22,13 +22,13 @@ const deploy = async (src, dist, config) => {
 
     // 上传的文件缓存策略
     if (file.endsWith('.html')) {
-      headers['Cache-Control'] = 'max-age=1'
+      headers['Cache-Control'] = 'public,max-age=0,must-revalidate'
     } else if (file.endsWith('service-worker.js')) {
       // do nothing
     } else if (file.endsWith('.js')) {
-      headers['Cache-Control'] = `max-age=${MONTH_AGE}`
+      headers['Cache-Control'] = `public,max-age=${MONTH_AGE},immutable`
     } else if (file.endsWith('.css')) {
-      headers['Cache-Control'] = `max-age=${MONTH_AGE}`
+      headers['Cache-Control'] = `public,max-age=${MONTH_AGE},immutable`
     }
 
     await client.putStream(target, stream, {
