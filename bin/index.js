@@ -7,7 +7,7 @@ const cli = cac('static-deploy')
 
 cli.command('deploy').option('--src <source>', 'source directory', {
   default: 'dist'
-}).option('--dist <dist>', 'dist directory', {
+}).option('--dist [dist]', 'dist directory', {
   default: ''
 }).action((options) => {
   const src = options['src']
