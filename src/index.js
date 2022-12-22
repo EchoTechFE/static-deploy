@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const glob = require('glob')
 const OSS = require('ali-oss')
+const { version } = require('../package.json')
 
 const deploy = async (src, dist, config) => {
   const client = new OSS(config)
@@ -11,6 +12,9 @@ const deploy = async (src, dist, config) => {
     nodir: true,
   })
 
+  dist = dist || ''
+
+  console.log(`version: ${version}`)
   console.log(`bucket: ${config.bucket}`)
   console.log(`dist: ${dist || '/'}`)
 
