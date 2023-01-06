@@ -29,6 +29,8 @@ const deploy = async (src, dist, config) => {
       headers['Cache-Control'] = 'public,max-age=0,must-revalidate'
     } else if (file.endsWith('service-worker.js')) {
       // do nothing
+    } else if (file.endsWith('app.js') || file.endsWith('app.css') || file.endsWith('index.js') || file.endsWith('index.css')) {
+      headers['Cache-Control'] = 'public,max-age=0,must-revalidate'
     } else if (file.endsWith('.js')) {
       headers['Cache-Control'] = `public,max-age=${MONTH_AGE},immutable`
     } else if (file.endsWith('.css')) {
