@@ -27,7 +27,9 @@ const deploy = async (src, dist, config) => {
 
     // 上传的文件缓存策略
     if (file.endsWith('.html')) {
-      headers['Cache-Control'] = 'public,max-age=0,must-revalidate';
+      headers['Cache-Control'] = 'public,max-age=0,must-revalidate'
+    } else if(file.endsWith('_payload.json')) {
+      headers['Cache-Control'] = 'public,max-age=0,must-revalidate'
     } else if (file.endsWith('service-worker.js')) {
       // do nothing
     } else if (
